@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="Study Service - Your learning companion">
+  <meta name="theme-color" content="#0ea5e9">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="study-service">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>study-service</title>
+  <link rel="manifest" href="./manifest.json">
+</head>
+<body>
+  <script src="flutter.js" defer></script>
+  <script>
+    // Proactively unregister any existing service workers to avoid stale caching issues
+    (function unregisterSW() {
+      if ('serviceWorker' in navigator) {
+        try {
+          navigator.serviceWorker.getRegistrations().then(function(regs) {
+            regs.forEach(function(reg) { try { reg.unregister(); } catch (_) {} });
+          }).catch(function(_){});
+        } catch (_) {}
+      }
+    })();
+  </script>
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        onEntrypointLoaded: function(engineInitializer) {
+          // Use default renderer (CanvasKit) for optimal performance
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          }).catch(function(e){
+            console.error('Flutter engine init failed:', e);
+            try {
+              var el = document.createElement('pre');
+              el.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#111;color:#eee;padding:16px;overflow:auto;';
+              el.textContent = 'Failed to start app.\\n' + (e && (e.stack || e.message || e.toString()));
+              document.body.appendChild(el);
+            } catch(_) {}
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
