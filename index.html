@@ -1,83 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
   <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
+    Replaced by the `--base-href` argument of `flutter build web`
+    (must start and end with "/").
   -->
   <base href="/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta name="description" content="Study Service - Your learning companion">
-  <meta name="theme-color" content="#0ea5e9">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="StudyService: turni di interrogazione, compiti, verifiche e scambi della tua classe.">
+  <meta name="theme-color" content="#F4F8FD" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0B1118" media="(prefers-color-scheme: dark)">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="study-service">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="StudyService">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>study-service</title>
   <link rel="manifest" href="./manifest.json">
+
+  <!-- Start loading the app font while the engine boots. -->
+  <link rel="preload" href="assets/assets/fonts/NunitoSans-Variable.ttf" as="font" type="font/ttf" crossorigin>
+
+  <title>StudyService</title>
+
+  <style>
+    html, body { margin: 0; height: 100%; background: #F4F8FD; }
+    @media (prefers-color-scheme: dark) { html, body { background: #0B1118; } }
+    #boot {
+      position: fixed; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 22px;
+      transition: opacity .35s ease;
+    }
+    #boot.gone { opacity: 0; pointer-events: none; }
+    #boot .mark {
+      width: 76px; height: 76px; border-radius: 42% 58% 55% 45% / 48% 42% 58% 52%;
+      background: linear-gradient(135deg, #2F7BEA, #7B5CF0);
+      box-shadow: 0 14px 34px -12px rgba(47, 123, 234, .6);
+      animation: breathe 1.6s ease-in-out infinite;
+    }
+    #boot .bar {
+      width: 120px; height: 4px; border-radius: 4px; overflow: hidden;
+      background: rgba(47, 123, 234, .16);
+    }
+    #boot .bar::after {
+      content: ""; display: block; width: 40%; height: 100%; border-radius: 4px;
+      background: #2F7BEA; animation: slide 1.1s cubic-bezier(.4, 0, .2, 1) infinite;
+    }
+    @keyframes breathe { 50% { transform: scale(1.06) rotate(6deg); } }
+    @keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+    @media (prefers-reduced-motion: reduce) {
+      #boot .mark, #boot .bar::after { animation: none; }
+    }
+  </style>
 </head>
 <body>
-  <script src='https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.min.mjs' type='module'></script>
-  <script type='module'>
-  var { pdfjsLib } = globalThis;
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.mjs';
-
-  var pdfRenderOptions = {
-    cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/cmaps/',
-    cMapPacked: true,
-  }
-  </script>
-  <script src="flutter.js" defer></script>
+  <div id="boot" aria-label="Caricamento di StudyService" role="progressbar">
+    <div class="mark"></div>
+    <div class="bar"></div>
+  </div>
   <script>
-    // Proactively unregister any existing service workers to avoid stale caching issues
-    (function unregisterSW() {
-      if ('serviceWorker' in navigator) {
-        try {
-          navigator.serviceWorker.getRegistrations().then(function(regs) {
-            regs.forEach(function(reg) { try { reg.unregister(); } catch (_) {} });
-          }).catch(function(_){});
-        } catch (_) {}
-      }
-    })();
-  </script>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        onEntrypointLoaded: function(engineInitializer) {
-          // Use default renderer (CanvasKit) for optimal performance
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          }).catch(function(e){
-            console.error('Flutter engine init failed:', e);
-            try {
-              var el = document.createElement('pre');
-              el.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#111;color:#eee;padding:16px;overflow:auto;';
-              el.textContent = 'Failed to start app.\\n' + (e && (e.stack || e.message || e.toString()));
-              document.body.appendChild(el);
-            } catch(_) {}
-          });
-        }
-      });
+    window.addEventListener('flutter-first-frame', function () {
+      var boot = document.getElementById('boot');
+      if (!boot) return;
+      boot.classList.add('gone');
+      setTimeout(function () { boot.remove(); }, 400);
     });
   </script>
+  <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

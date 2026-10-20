@@ -1,12 +1,13 @@
 {
-    "name": "study-service",
-    "short_name": "study-service",
+    "name": "StudyService",
+    "short_name": "StudyService",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#0ea5e9",
-    "description": "Study Service - Your learning companion",
-    "orientation": "portrait-primary",
+    "background_color": "#F4F8FD",
+    "theme_color": "#F4F8FD",
+    "description": "Turni di interrogazione, compiti, verifiche e scambi della tua classe.",
+    "lang": "it",
+    "orientation": "any",
     "prefer_related_applications": false,
     "icons": [
         {
